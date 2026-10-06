@@ -25,18 +25,12 @@ y = torch.from_numpy(np.load("test_y.npy")).to(device)
 
 # Preprocess images
 
-# Warmup calls
-for _ in range(10):
-    x = test_x / 255.0
-    x = x.permute(0, 3, 1, 2)
-    x = ((x - mean_t) / std_t).contiguous()
     
 start_time = time.perf_counter()
 
-for _ in range(100):
-    x = test_x / 255.0
-    x = x.permute(0, 3, 1, 2)
-    x = ((x - mean_t) / std_t).contiguous()
+x = test_x / 255.0
+x = x.permute(0, 3, 1, 2)
+x = ((x - mean_t) / std_t).contiguous()
 
 end_time = time.perf_counter()
 
@@ -54,6 +48,7 @@ with torch.no_grad():
 elapsed_time = end_time - start_time
 
 # Calculate accuracy 
-correct /= len(x)
-print(correct)
-print(elapsed_time)
+accuracy = correct / len(x)
+print("Accuracy: " + str(accuracy))
+print("Correct: " + str(correct))
+print("Preprocessing time: " + str(elapsed_time))

@@ -1,0 +1,16 @@
+
+NOTICE: Existing SQLite export found: custom_report.sqlite
+        It is assumed file was previously exported from: custom_report.nsys-rep
+        Consider using --force-export=true if needed.
+
+Processing [custom_report.sqlite] with [/opt/nvidia/nsight-systems/2024.5.4/host-linux-armv8/reports/cuda_gpu_mem_size_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Size) (cuda_gpu_mem_size_sum):
+
+ Total (MB)  Count  Avg (MB)  Med (MB)  Min (MB)  Max (MB)  StdDev (MB)            Operation           
+ ----------  -----  --------  --------  --------  --------  -----------  ------------------------------
+     37.327     94     0.397     0.000     0.000    30.720        3.177  [CUDA memcpy Host-to-Device]  
+      3.264     46     0.071     0.000     0.000     2.097        0.321  [CUDA memcpy Device-to-Device]
+      0.006    159     0.000     0.000     0.000     0.002        0.000  [CUDA memset]                 
+      0.001     79     0.000     0.000     0.000     0.000        0.000  [CUDA memcpy Device-to-Host]  
+

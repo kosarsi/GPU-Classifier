@@ -1,0 +1,16 @@
+
+NOTICE: Existing SQLite export found: pytorch_report.sqlite
+        It is assumed file was previously exported from: pytorch_report.nsys-rep
+        Consider using --force-export=true if needed.
+
+Processing [pytorch_report.sqlite] with [/opt/nvidia/nsight-systems/2024.5.4/host-linux-armv8/reports/cuda_gpu_mem_time_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
+
+ Time (%)  Total Time (ns)  Count  Avg (ns)  Med (ns)  Min (ns)  Max (ns)   StdDev (ns)            Operation           
+ --------  ---------------  -----  --------  --------  --------  ---------  -----------  ------------------------------
+     89.8        5,665,472     96  59,015.3     800.0       704  4,947,488    505,195.5  [CUDA memcpy Host-to-Device]  
+      5.4          343,296     46   7,463.0   4,032.0     3,200     91,872     13,856.1  [CUDA memcpy Device-to-Device]
+      2.7          171,936     79   2,176.4   2,080.0     1,984      3,904        333.2  [CUDA memcpy Device-to-Host]  
+      2.0          128,384    159     807.4     768.0       704      2,944        244.0  [CUDA memset]                 
+

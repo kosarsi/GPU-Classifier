@@ -1,0 +1,16 @@
+
+NOTICE: Existing SQLite export found: custom_report.sqlite
+        It is assumed file was previously exported from: custom_report.nsys-rep
+        Consider using --force-export=true if needed.
+
+Processing [custom_report.sqlite] with [/opt/nvidia/nsight-systems/2024.5.4/host-linux-armv8/reports/cuda_gpu_mem_time_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
+
+ Time (%)  Total Time (ns)  Count  Avg (ns)  Med (ns)  Min (ns)  Max (ns)   StdDev (ns)            Operation           
+ --------  ---------------  -----  --------  --------  --------  ---------  -----------  ------------------------------
+     89.7        5,628,832     94  59,881.2     800.0       704  4,898,464    505,537.9  [CUDA memcpy Host-to-Device]  
+      5.5          345,856     46   7,518.6   4,032.0     3,264     92,800     14,014.2  [CUDA memcpy Device-to-Device]
+      2.8          172,672     79   2,185.7   2,080.0     1,984      4,672        404.1  [CUDA memcpy Device-to-Host]  
+      2.1          130,944    159     823.5     768.0       704      3,968        307.6  [CUDA memset]                 
+

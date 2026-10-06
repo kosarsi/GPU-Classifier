@@ -39,34 +39,14 @@ x = torch.from_numpy(np.load("test_x.npy")).to(device)
 y = torch.from_numpy(np.load("test_y.npy")).to(device)
 
 # Preprocess using the custom normalization kernel
+x = x.contiguous()
+N, H, W, _ = x.shape
+x_norm = torch.empty((N, 3, H, W), dtype=torch.float32, device=device)
 
-# Warmup calls
-for _ in range(10):
-    x = x.contiguous()
-    N, H, W, _ = x.shape
-    x_norm = torch.empty((N, 3, H, W), dtype=torch.float32, device=device)
-
-    lib.launch_kernel(
-        x.data_ptr(), x_norm.data_ptr(), torch.cuda.current_stream().cuda_stream, N, H, W, mean[0], mean[1], mean[2], std[0], std[1], std[2]
-    )
-    
-torch.cuda.synchronize()
-start_time = time.perf_counter()
-
-for i in range(100):
-    x = x.contiguous()
-    N, H, W, _ = x.shape
-    x_norm = torch.empty((N, 3, H, W), dtype=torch.float32, device=device)
-
-    lib.launch_kernel(
-        x.data_ptr(), x_norm.data_ptr(), torch.cuda.current_stream().cuda_stream, N, H, W, mean[0], mean[1], mean[2], std[0], std[1], std[2]
-    )
-    if (i == 99):
-        x = x_norm
-
-torch.cuda.synchronize()
-end_time = time.perf_counter()
-
+lib.launch_kernel(
+    x.data_ptr(), x_norm.data_ptr(), torch.cuda.current_stream().cuda_stream, N, H, W, mean[0], mean[1], mean[2], std[0], std[1], std[2]
+)
+x = x_norm
 correct = 0
 
 # Model forward pass
@@ -78,9 +58,7 @@ with torch.no_grad():
         correct_tensor = predictions == y[i:i+128]
         correct += correct_tensor.sum().item()
 
-elapsed_time = end_time - start_time
-
 # Calculate accuracy 
-correct /= len(x)
-print(correct)
-print(elapsed_time)
+accuracy = correct / len(x)
+print("Accuracy: " + str(accuracy))
+print("Correct: " + str(correct))
