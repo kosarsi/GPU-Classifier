@@ -61,4 +61,3 @@ with torch.no_grad():
 # Calculate accuracy 
 accuracy = correct / len(x)
 print("Accuracy: " + str(accuracy))
-print("Correct: " + str(correct))

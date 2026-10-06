@@ -7,7 +7,7 @@ import json
 import numpy as np
 import torch
 
-device = "cpu"
+device = "cuda"
 
 model = Net()
 model.to(device)
@@ -24,15 +24,9 @@ test_x = torch.from_numpy(np.load("test_x.npy")).to(device)
 y = torch.from_numpy(np.load("test_y.npy")).to(device)
 
 # Preprocess images
-
-    
-start_time = time.perf_counter()
-
 x = test_x / 255.0
 x = x.permute(0, 3, 1, 2)
 x = ((x - mean_t) / std_t).contiguous()
-
-end_time = time.perf_counter()
 
 correct = 0
 
@@ -45,10 +39,6 @@ with torch.no_grad():
         correct_tensor = predictions == y[i:i+128]
         correct += correct_tensor.sum().item()
 
-elapsed_time = end_time - start_time
-
 # Calculate accuracy 
 accuracy = correct / len(x)
 print("Accuracy: " + str(accuracy))
-print("Correct: " + str(correct))
-print("Preprocessing time: " + str(elapsed_time))
