@@ -20,18 +20,29 @@ mean_t = torch.tensor(stats["mean"]).view(1, 3, 1, 1).to(device)
 std_t = torch.tensor(stats["std"]).view(1, 3, 1, 1).to(device)
 
 # Load batch of images and outputs
-x = torch.from_numpy(np.load("test_x.npy")).to(device)
+test_x = torch.from_numpy(np.load("test_x.npy")).to(device)
 y = torch.from_numpy(np.load("test_y.npy")).to(device)
 
 # Preprocess images
-x = x / 255.0
-x = x.permute(0, 3, 1, 2)
-x = ((x - mean_t) / std_t).contiguous()
 
-correct = 0
-
+# Warmup calls
+for _ in range(10):
+    x = test_x / 255.0
+    x = x.permute(0, 3, 1, 2)
+    x = ((x - mean_t) / std_t).contiguous()
+    
 torch.cuda.synchronize()
 start_time = time.perf_counter()
+
+for _ in range(100):
+    x = test_x / 255.0
+    x = x.permute(0, 3, 1, 2)
+    x = ((x - mean_t) / std_t).contiguous()
+
+torch.cuda.synchronize()
+end_time = time.perf_counter()
+
+correct = 0
 
 # Model forward pass
 with torch.no_grad():
@@ -41,9 +52,6 @@ with torch.no_grad():
         predictions = torch.argmax(outs, 1)
         correct_tensor = predictions == y[i:i+128]
         correct += correct_tensor.sum().item()
-
-torch.cuda.synchronize()
-end_time = time.perf_counter()
 
 elapsed_time = end_time - start_time
 
